@@ -52,11 +52,10 @@ public class NPC extends Player{
             	temp-=1;
             if (!m.isEmpty() && (m.get(0).getY()==1 || m.get(0).getY()==board.getN()-2))
             	temp -=1;
-            if (temp==size){
+            if (temp-size>=-.5){
                 pick.add(m);
             }
         }
-        
         board.makeMove(pick.get((int)(Math.random()*pick.size())), color);
     }
 }

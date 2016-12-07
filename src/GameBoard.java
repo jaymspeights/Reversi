@@ -49,7 +49,7 @@ public class GameBoard {
   private int recursiveCheck(String color, int x, int y, int xDir, int yDir){
     return recursiveCheck(color, x, y, xDir, yDir, 0);
   }
-  private int recursiveCheck(String color, int x, int y, int xDir, int yDir, int count){
+  private int recursiveCheck(String color, int x, int y, int xDir, int yDir, int cnt){
       count++;
       x += xDir;
       y += yDir;
@@ -57,10 +57,10 @@ public class GameBoard {
       if (x<0 || x >= space.length || y<0 || y >= space.length)
           return 0;
       if (space[x][y].getColor().equals(color))
-          return count;
+          return cnt;
       if (!(space[x][y].getColor().equals("-"))){
-          count++;
-          num = recursiveCheck(color, x, y, xDir, yDir, count);
+          cnt++;
+          num = recursiveCheck(color, x, y, xDir, yDir, cnt);
           if (num>0)
               return num;
       }
@@ -103,8 +103,9 @@ public class GameBoard {
 
   @Override
   public String toString(){
-    String str = "";
+    String str = "0 1 2 3 4 5 6 7 8\n";
     for (int i = 0; i < space.length; i++){
+        str += i+1+" ";
       for (int j = 0; j < space[0].length; j++){
         str += space[j][i].getColor()+" ";
       }
