@@ -7,9 +7,15 @@ import java.util.ArrayList;
 public class GameBoard {
   private Piece[][] space;
   int n;
+  int count = 0;
+  int index = 0;
+  int size;
+  int[] op;
   public GameBoard(int n){
     space = new Piece[n][n];
     this.n = n;
+    size = (int)(Math.pow(n,2));
+    op = new int[size];
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             space[i][j] = new Piece();
@@ -26,10 +32,12 @@ public class GameBoard {
   }
   public ArrayList<Move> getMove(String color, int x, int y){
       ArrayList<Move> flip = new ArrayList();
+      count++;
       if (x<0 || y<0 || x>=n || y>=n || !(space[x][y].getColor().equals("-")))
           return flip;
       for (int i = -1; i < 2; i++){
         for (int j = -1; j < 2; j++){
+            count++;
             int num = recursiveCheck(color, x, y, i, j);
             if (num>0)
                 flip.add(new Move(color, x, y, i, j, num));
@@ -42,6 +50,7 @@ public class GameBoard {
     return recursiveCheck(color, x, y, xDir, yDir, 0);
   }
   private int recursiveCheck(String color, int x, int y, int xDir, int yDir, int count){
+      count++;
       x += xDir;
       y += yDir;
       int num = 0;
@@ -117,5 +126,34 @@ public class GameBoard {
         }
       }
       return moves;
+  }
+  
+  public boolean checkAllMoves(String color){
+      count = 0;
+      ArrayList<ArrayList<Move>> moves = new ArrayList();
+      for (int i = 0; i < space[0].length; i++){
+        for (int j = 0; j < space.length; j++){
+            count++;
+            if (space[i][j].getColor().equals("-")){
+                ArrayList<Move> m = getMove(color, i, j);
+                count++;
+                if (!m.isEmpty() && m.get(0).getNum()>0)
+                 moves.add(m);
+            }
+        }
+      }
+      op[index] = count;
+      index++;
+      return moves.size()>0;
+  }
+  
+  public int[] getOp(){
+      return op;
+  }
+  public int getCount(){
+      return count;
+  }
+  public int getIndex(){
+      return index;
   }
 }
